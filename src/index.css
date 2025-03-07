@@ -1,0 +1,62 @@
+:root {
+  
+  
+  
+  
+  --font-weight: 200;
+  --font-size: 14px;
+  --font-size-xl: 106px;
+  --font-size-l: 24px;
+  --font-color:#5c5c5c ;
+  --font-color-second:#bcbcbc ;
+  --padding: 12px;
+  --padding-s: 8px;
+  --border-color: #ededed;
+
+  --max-width: 425px;
+
+  font-size: var(--font-size);
+  line-height: 1.5;
+}
+
+* {
+  box-sizing: border-box;
+  border: none;
+  background: none;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: var(--font-color);
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+body {
+  font-weight: var(--font-weight);
+  background-color: #f5f5f5;
+}
+
+
+
+input:focus {
+  border: none;
+  outline: none;
+}
+
+.loading::after {
+  content: 'Загрузка...';
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.8);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.listEmpty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

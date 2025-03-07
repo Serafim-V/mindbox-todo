@@ -1,0 +1,6 @@
+.header {
+  color: #e9d9d8;
+  text-align: center;
+  font-weight: 100;
+  font-size: var(--font-size-xl)
+}

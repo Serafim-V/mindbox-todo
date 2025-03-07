@@ -1,0 +1,17 @@
+.listItem {
+  font-size: var(--font-size-l);
+  padding: var(--padding);
+  cursor: pointer;
+  position: relative;
+}
+
+.listItem:not(last-child) {
+  border-bottom: 1px solid var(--border-color);
+}
+
+@media (max-width: 425px) {
+  .listItem {
+    font-size: 14px;
+    padding: var(--padding-s);
+  } 
+}

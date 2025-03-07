@@ -1,0 +1,44 @@
+.icon {
+  display: block;
+  border: 1px solid var(--border-color);
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.todo {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  gap: 20px;
+}
+
+.completed .text {
+  text-decoration:line-through;
+  color: var(--font-color-second);
+  flex-shrink: 1;
+}
+
+.completed .icon::after, 
+.completed .icon::before {
+  content: '';
+  display: block;
+  width: 2px;
+  background: #80c4b4;
+  left: 40%;
+  bottom: 7px;
+  position: absolute;
+  transform-origin: 1px 100%;
+}
+
+.completed .icon::after {
+  height: 18px;
+  transform: rotate(30deg);
+}
+
+.completed .icon::before {
+  height: 7px;
+  transform: rotate(-40deg);
+}

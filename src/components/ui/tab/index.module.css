@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  gap: 5px;
+}
+
+.tab {
+  border-radius: 3px;
+  padding: 0 5px;
+  border: 1px solid transparent;
+}
+.tab:hover {
+  cursor: pointer;
+  background-color: #efe1e1;
+}
+
+.active {
+  border-color: #efe1e1;
+}
