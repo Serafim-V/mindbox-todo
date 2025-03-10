@@ -6,8 +6,8 @@ export function useUpdateTodo() {
 
   return useMutation({
     mutationFn: updateTodo,
-    // onSuccess: () => {
-    //   queryClient.invalidateQueries({ queryKey: ['todos'] })
-    // },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['todos'] })
+    },
   })
 }

@@ -6,5 +6,6 @@ export function useGetTodoList() {
   return useQuery<TodosResponse>({
     queryKey: ['todos'],
     queryFn: getTodoList,
+    initialData: { todos: [], total: 0, skip: 0, limit: 0 },
   })
 }

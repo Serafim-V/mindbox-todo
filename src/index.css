@@ -1,9 +1,5 @@
 :root {
-  
-  
-  
-  
-  --font-weight: 200;
+  --font-weight: 100;
   --font-size: 14px;
   --font-size-xl: 106px;
   --font-size-l: 24px;
@@ -12,14 +8,12 @@
   --padding: 12px;
   --padding-s: 8px;
   --border-color: #ededed;
-
   --max-width: 425px;
-
   font-size: var(--font-size);
-  line-height: 1.5;
 }
 
 * {
+  line-height: 1.5;
   box-sizing: border-box;
   border: none;
   background: none;
@@ -34,8 +28,6 @@ body {
   font-weight: var(--font-weight);
   background-color: #f5f5f5;
 }
-
-
 
 input:focus {
   border: none;
