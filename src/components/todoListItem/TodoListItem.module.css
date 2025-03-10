@@ -13,16 +13,17 @@
   justify-content: start;
   align-items: start;
   gap: 20px;
+  cursor: pointer;
 }
 
-.completed .text {
+input:checked+span+.text {
   text-decoration: line-through;
   color: var(--font-color-second);
   flex-shrink: 1;
 }
 
-.completed .icon::after,
-.completed .icon::before {
+input:checked+.icon::after,
+input:checked+.icon::before {
   content: '';
   display: block;
   width: 2px;
@@ -33,12 +34,12 @@
   transform-origin: 1px 100%;
 }
 
-.completed .icon::after {
+input:checked+.icon::after {
   height: 18px;
   transform: rotate(30deg);
 }
 
-.completed .icon::before {
+input:checked+.icon::before {
   height: 7px;
   transform: rotate(-40deg);
 }
@@ -49,17 +50,17 @@
     width: var(--size);
     height: var(--size);
   }
-  .completed .icon::after,
-  .completed .icon::before {
+  input:checked+.icon::after,
+  input:checked+.icon::before {
     bottom: 5px;
   }
 
-  .completed .icon::after {
+  input:checked+.icon::after {
     height: 12px;
     transform: rotate(30deg);
   }
 
-  .completed .icon::before {
+  input:checked+.icon::before {
     height: 4px;
     transform: rotate(-40deg);
   }

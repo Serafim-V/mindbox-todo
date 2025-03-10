@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { SyntheticEvent } from 'react'
 import { Todo } from '../../types'
 import { useUpdateTodo } from '../../useQueries/useUpdateTodo'
 import { ListItem } from '../ui/listItem'
@@ -7,17 +8,11 @@ import styles from './TodoListItem.module.css'
 export function TodoListItem({ todo }: { todo: Todo }) {
   const mutation = useUpdateTodo()
 
-  const updateTodo = async () => {
+  const updateTodo = async (e: SyntheticEvent<HTMLInputElement>) => {
     try {
-      const updatedTodo = await mutation.mutateAsync({
-        completed: !todo.completed,
+      await mutation.mutateAsync({
+        completed: e.currentTarget.checked,
         id: String(todo.id),
-      })
-      const index = fakeTodoList?.findIndex(fakeTodo => todo.id === fakeTodo.id)
-      setFakeTodoList(prev => {
-        prev[index] = updatedTodo
-
-        return [...prev]
       })
     } catch (error) {
       console.log('Error:', error)
@@ -25,14 +20,17 @@ export function TodoListItem({ todo }: { todo: Todo }) {
   }
 
   return (
-    <ListItem key={todo.id} loading={mutation.isPending}>
-      <div
-        className={clsx([styles.todo, todo.completed && styles.completed])}
-        onClick={updateTodo}
-      >
+    <ListItem loading={mutation.isPending}>
+      <label className={clsx([styles.todo])}>
+        <input
+          type="checkbox"
+          hidden
+          checked={todo.completed}
+          onChange={updateTodo}
+        />
         <span className={styles.icon}></span>
         <span className={styles.text}>{todo.todo}</span>
-      </div>
+      </label>
     </ListItem>
   )
 }

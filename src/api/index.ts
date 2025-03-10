@@ -1,15 +1,10 @@
+import axios from 'axios'
 import { Todo } from '../types'
 
-async function resposeHandler(res: Response) {
-  if (res.status >= 400) {
-    throw await res.json()
-  }
-
-  return res.json()
-}
-
 export async function getTodoList() {
-  return fetch('https://dummyjson.com/todos?limit=10').then(res => res.json())
+  return axios
+    .get('https://dummyjson.com/todos?limit=10')
+    .then(({ data }) => data)
 }
 
 export async function updateTodo({
@@ -19,28 +14,24 @@ export async function updateTodo({
   completed: boolean
   id: string
 }) {
-  return fetch('https://dummyjson.com/todos/' + id, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
+  return axios
+    .put('https://dummyjson.com/todos/' + id, {
       completed,
-    }),
-  }).then(resposeHandler)
+    })
+    .then(({ data }) => data)
 }
 
 export async function deleteTodo(id: string) {
-  return fetch('https://dummyjson.com/todos/' + id, {
-    method: 'DELETE',
-  }).then(resposeHandler)
+  return axios
+    .delete<Todo>('https://dummyjson.com/todos/' + id)
+    .then(({ data }) => data)
 }
 
 export async function addTodo(todo: Pick<Todo, 'todo'>) {
-  return fetch('https://dummyjson.com/todos/add', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
+  return axios
+    .post<Todo>('https://dummyjson.com/todos/add', {
       ...todo,
       userId: 1,
-    }),
-  }).then(resposeHandler)
+    })
+    .then(({ data }) => data)
 }

@@ -1,7 +1,6 @@
 .listItem {
   font-size: var(--font-size-l);
   padding: var(--padding);
-  cursor: pointer;
   position: relative;
 }
 

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo } from 'react'
 import { Todo } from '../../types'
 import { useAddTodo } from '../../useQueries/useAddTodo'
 import { useDeleteTodo } from '../../useQueries/useDeleteTodo'
@@ -10,8 +10,8 @@ import { List } from '../ui/list'
 import { useTab } from '../ui/tab/useTab'
 
 export function TodoList() {
-  const [fakeTodoList, setFakeTodoList] = useState<Todo[]>([])
   const { data, isLoading } = useGetTodoList()
+
   const {
     mutateAsync: addTodoMutateAsync,
     isPending: addTodoLoading,
@@ -25,8 +25,7 @@ export function TodoList() {
       const todo = formData.get('todo')?.toString()
       if (todo) {
         try {
-          const newTodo = await addTodoMutateAsync({ todo })
-          setFakeTodoList(prev => [newTodo, ...prev])
+          await addTodoMutateAsync({ todo })
         } catch (error) {
           console.log('Error', error)
         }
@@ -36,25 +35,18 @@ export function TodoList() {
   )
 
   const clearCompleted = useCallback(async () => {
-    try {
-      const deletedTodo = await Promise.all(
-        fakeTodoList
-          .filter(todo => todo.completed === true)
-          .map(todo => deleteTodo.mutateAsync(String(todo.id))),
-      )
-      setFakeTodoList(prev =>
-        prev.filter(
-          todo => !deletedTodo.map(todo => todo.id).includes(todo.id),
-        ),
-      )
-    } catch (error) {
-      console.log('Error', error)
+    if (data?.todos) {
+      try {
+        Promise.all(
+          data?.todos
+            .filter(todo => todo.completed === true)
+            .map(todo => deleteTodo.mutateAsync(String(todo.id))),
+        )
+      } catch (error) {
+        console.log('Error', error)
+      }
     }
-  }, [deleteTodo, fakeTodoList])
-
-  useEffect(() => {
-    setFakeTodoList(data?.todos || [])
-  }, [data?.todos])
+  }, [data?.todos, deleteTodo])
 
   const tabProps = useTab({
     defaultValue: 1,
@@ -67,21 +59,21 @@ export function TodoList() {
 
   const todos = useMemo(() => {
     if (tabProps.activeTab === 2) {
-      return fakeTodoList?.filter((todo: Todo) => todo.completed === false)
+      return data?.todos?.filter((todo: Todo) => todo.completed === false)
     }
     if (tabProps.activeTab === 3) {
-      return fakeTodoList?.filter((todo: Todo) => todo.completed === true)
+      return data?.todos?.filter((todo: Todo) => todo.completed === true)
     }
 
-    return fakeTodoList
-  }, [fakeTodoList, tabProps.activeTab])
+    return data?.todos || []
+  }, [data?.todos, tabProps.activeTab])
 
   const itemsLeft = useMemo(() => {
     return data ? data?.total - data?.limit : 0
   }, [data])
 
   return (
-    <>
+    <div>
       <div>{isError && <p>Error: {JSON.stringify(error)}</p>}</div>
       <List
         loading={isLoading || addTodoLoading || deleteTodo.isPending}
@@ -95,9 +87,9 @@ export function TodoList() {
         }
       >
         {todos.map(todo => (
-          <TodoListItem todo={todo} />
+          <TodoListItem key={todo.id} todo={todo} />
         ))}
       </List>
-    </>
+    </div>
   )
 }

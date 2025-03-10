@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import styles from './index.module.css'
+import styles from './Tab.module.css'
 import { ITab } from './useTab'
 
 export type ITabProps = {

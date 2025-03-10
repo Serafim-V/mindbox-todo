@@ -1,3 +1,3 @@
 export * from './Button'
 
-export * from './Button.module.css'
+export * as default from './Button.module.css'

@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { PropsWithChildren } from 'react'
+import { JSX, PropsWithChildren } from 'react'
 import { ListItem } from '../listItem'
 import styles from './List.module.css'
 
@@ -17,7 +17,7 @@ export function List({
     <div className={styles.list}>
       <div className={styles.header}>{header}</div>
       <ul className={clsx([styles.content, loading && 'loading'])}>
-        {children?.length > 0 ? (
+        {children ? (
           children
         ) : (
           <ListItem>
