@@ -3,11 +3,14 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://Serafim-V.github.io/mindbox-todo",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "deploy": "gh-pages -d dist",
+    "predeploy": "npm run build",
     "lint": "eslint .",
-    "preview": "vite preview",
+    "start": "vite preview",
     "test": "jest"
   },
   "lint-staged": {
@@ -26,7 +29,7 @@
     "@tanstack/react-query": "^5.67.1",
     "axios": "^1.8.2",
     "clsx": "^2.1.1",
-    "react": "^19.0.0", 
+    "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
@@ -44,6 +47,7 @@
     "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
+    "gh-pages": "^6.3.0",
     "globals": "^15.15.0",
     "husky": "^9.1.7",
     "identity-obj-proxy": "^3.0.0",
