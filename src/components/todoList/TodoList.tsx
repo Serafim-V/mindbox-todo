@@ -3,6 +3,7 @@ import { Todo } from '../../types'
 import { useAddTodo } from '../../useQueries/useAddTodo'
 import { useDeleteTodo } from '../../useQueries/useDeleteTodo'
 import { useGetTodoList } from '../../useQueries/useGetTodoList'
+import { useUpdateTodo } from '../../useQueries/useUpdateTodo'
 import { TodoListFooter } from '../todoListFooter/TodoListFooter'
 import { TodoListHeader } from '../todoListHeader/TodoListHeader'
 import { TodoListItem } from '../todoListItem'
@@ -10,7 +11,7 @@ import { List } from '../ui/list'
 import { useTab } from '../ui/tab/useTab'
 
 export function TodoList() {
-  const { data, isLoading } = useGetTodoList()
+  const { data, isLoading, refetch } = useGetTodoList()
 
   const {
     mutateAsync: addTodoMutateAsync,
@@ -19,7 +20,7 @@ export function TodoList() {
     isError,
   } = useAddTodo()
   const deleteTodo = useDeleteTodo()
-
+  const updateMutation = useUpdateTodo()
   const addTodo = useCallback(
     async (formData: FormData) => {
       const todo = formData.get('todo')?.toString()
@@ -35,18 +36,18 @@ export function TodoList() {
   )
 
   const clearCompleted = useCallback(async () => {
-    if (data?.todos) {
+    const complited = data?.todos.filter(todo => todo.completed === true)
+    if (complited.length) {
       try {
-        Promise.all(
-          data?.todos
-            .filter(todo => todo.completed === true)
-            .map(todo => deleteTodo.mutateAsync(String(todo.id))),
+        await Promise.all(
+          complited.map(todo => deleteTodo.mutateAsync(String(todo.id))),
         )
+        refetch()
       } catch (error) {
         console.log('Error', error)
       }
     }
-  }, [data?.todos, deleteTodo])
+  }, [data?.todos, deleteTodo, refetch])
 
   const tabProps = useTab({
     defaultValue: 1,
@@ -76,7 +77,12 @@ export function TodoList() {
     <div>
       <div>{isError && <p>Error: {JSON.stringify(error)}</p>}</div>
       <List
-        loading={isLoading || addTodoLoading || deleteTodo.isPending}
+        loading={
+          isLoading ||
+          addTodoLoading ||
+          deleteTodo.isPending ||
+          updateMutation.isPending
+        }
         header={<TodoListHeader addTodo={addTodo} />}
         footer={
           <TodoListFooter
@@ -87,7 +93,7 @@ export function TodoList() {
         }
       >
         {todos.map(todo => (
-          <TodoListItem key={todo.id} todo={todo} />
+          <TodoListItem key={todo.id} todo={todo} mutation={updateMutation} />
         ))}
       </List>
     </div>
