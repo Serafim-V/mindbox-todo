@@ -1,9 +1,17 @@
 import axios from 'axios'
 import { Todo } from '../types'
 
+const axiosInstans = axios.create({
+  baseURL: 'https://dummyjson.com',
+})
+
 export async function getTodoList() {
-  return axios
-    .get('https://dummyjson.com/todos?limit=10')
+  return axiosInstans
+    .get('/todos', {
+      params: {
+        limit: 10,
+      },
+    })
     .then(({ data }) => data)
 }
 
@@ -14,22 +22,20 @@ export async function updateTodo({
   completed: boolean
   id: string
 }) {
-  return axios
-    .put('https://dummyjson.com/todos/' + id, {
+  return axiosInstans
+    .put('/todos/' + id, {
       completed,
     })
     .then(({ data }) => data)
 }
 
 export async function deleteTodo(id: string) {
-  return axios
-    .delete<Todo>('https://dummyjson.com/todos/' + id)
-    .then(({ data }) => data)
+  return axiosInstans.delete<Todo>('/todos/' + id).then(({ data }) => data)
 }
 
 export async function addTodo(todo: Pick<Todo, 'todo'>) {
-  return axios
-    .post<Todo>('https://dummyjson.com/todos/add', {
+  return axiosInstans
+    .post<Todo>('/todos/add', {
       ...todo,
       userId: 1,
     })
